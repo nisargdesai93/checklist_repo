@@ -1,0 +1,123 @@
+<div class="row p-3" style="background-color: #dfdfdf;">
+  <div class="form-inline">
+    <div class="form-group">
+      <label class="mr-3" for="email">Event</label>
+      <input type="text" class="form-control ml-2" #event="ngModel" [(ngModel)]="eventEditModel.title" (keyup)="refresh.next()" />
+    </div>
+
+    <div class="form-group ml-2 mr-2">
+      <label class="mr-3" for="pwd">Start At</label>
+      <input class="form-control" type="text" mwlFlatpickr (ngModelChange)="refresh.next()" #start="ngModel" [(ngModel)]="eventEditModel.start"
+             [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+    </div>
+
+    <div class="form-group">
+      <label class="mr-3" for="pwd">Ends at</label>
+      <input class="form-control" type="text" mwlFlatpickr (ngModelChange)="refresh.next()" [altInput]="true" #end="ngModel" [(ngModel)]="eventEditModel.end"
+             [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+    </div>
+
+    <button type="button" class="btn btn-default active ml-2" (click)="addEvent()">Submit</button>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div class="btn btn-primary"
+           mwlCalendarPreviousView
+           [view]="view"
+           [(viewDate)]="viewDate"
+           (viewDateChange)="closeOpenMonthViewDay()">
+        Previous
+      </div>
+      <div class="btn btn-outline-secondary"
+           mwlCalendarToday
+           [(viewDate)]="viewDate">
+        Today
+      </div>
+      <div class="btn btn-primary"
+           mwlCalendarNextView
+           [view]="view"
+           [(viewDate)]="viewDate"
+           (viewDateChange)="closeOpenMonthViewDay()">
+        Next
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div class="btn btn-primary"
+           (click)="setView(CalendarView.Month)"
+           [class.active]="view === CalendarView.Month">
+        Month
+      </div>
+      <div class="btn btn-primary"
+           (click)="setView(CalendarView.Week)"
+           [class.active]="view === CalendarView.Week">
+        Week
+      </div>
+      <div class="btn btn-primary"
+           (click)="setView(CalendarView.Day)"
+           [class.active]="view === CalendarView.Day">
+        Day
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-5">
+  <div class="col-md-7">
+    <h3></h3>
+    <div [ngSwitch]="view">
+      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month"
+                               [viewDate]="viewDate"
+                               [events]="events"
+                               [refresh]="refresh"
+                               [activeDayIsOpen]="activeDayIsOpen"
+                               (dayClicked)="dayClicked($event.day)"
+                               (eventClicked)="handleEvent('Clicked', $event.event)"
+                               (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week"
+                              [viewDate]="viewDate"
+                              [events]="events"
+                              [refresh]="refresh"
+                              (eventClicked)="handleEvent('Clicked', $event.event)"
+                              (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-week-view>
+      <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
+                             [viewDate]="viewDate"
+                             [events]="events"
+                             [refresh]="refresh"
+                             (eventClicked)="handleEvent('Clicked', $event.event)"
+                             (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-day-view>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <h3 class="text-center">Events</h3>
+    <div class="table-responsive">
+      <ul *ngIf="events.length > 0" class="list-group">
+        <li class="list-group-item" *ngFor="let event of userEvents">
+          <span><strong>Title : </strong>{{event.title}}</span><br />
+          <span><strong>Start At : </strong>{{ event.start | date:'medium' }}</span><br />
+          <span><strong> Ends At : </strong>{{ event.end | date:'medium' }}</span><br />
+        </li>
+      </ul>
+      <ul *ngIf="events.length <= 0">
+        <li class="list-group-item">
+          <span class="text-center"><strong>No Event Has Been Added for this month</strong></span><br />
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

@@ -1,0 +1,10 @@
+E:\CheckList\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.deps.json
+E:\CheckList\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.runtimeconfig.json
+E:\CheckList\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.runtimeconfig.dev.json
+E:\CheckList\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.dll
+E:\CheckList\Infrastructure\bin\Debug\netcoreapp2.2\Infrastructure.pdb
+E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.csproj.CoreCompileInputs.cache
+E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.AssemblyInfoInputs.cache
+E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.AssemblyInfo.cs
+E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.dll
+E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.pdb
