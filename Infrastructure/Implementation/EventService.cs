@@ -24,6 +24,7 @@ namespace Infrastructure.Implementation
             {
                 var eventModel = CreateModel(model);
                 _eventRepository.Insert(eventModel);
+                calenderEvent.Message = "Event successfully added to your calender between " + calenderEvent.Start + " to " + calenderEvent.End;
                 return calenderEvent;
             }
             catch (Exception ex)

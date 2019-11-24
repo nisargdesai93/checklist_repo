@@ -45,6 +45,8 @@ export class LargeCalenderComponent {
   public eventEditModel: CalendarEventEditModel = new CalendarEventEditModel();
   public eventSearchModel: CalenderEventSearchEditModel = new CalenderEventSearchEditModel();
   public events: CalendarEvent[] = [];
+  public message: string = "";
+  public showMessage: boolean = false;
 
   modalData: {
     action: string;
@@ -83,22 +85,6 @@ export class LargeCalenderComponent {
 
   refresh: Subject<any> = new Subject();
 
-  //events: CalendarEvent[] = [
-  //  {
-  //    start: subDays(startOfDay(new Date()), 1),
-  //    end: addDays(new Date(), 1),
-  //    title: 'A 3 day event',
-  //    color: colors.red,
-  //    actions: this.actions,
-  //    allDay: true,
-  //    resizable: {
-  //      beforeStart: true,
-  //      afterEnd: true
-  //    },
-  //    draggable: true
-  //  }
-  //];
-
   activeDayIsOpen: boolean = true;
 
   setView(view: CalendarView) {
@@ -129,16 +115,16 @@ export class LargeCalenderComponent {
     newStart,
     newEnd
   }: CalendarEventTimesChangedEvent): void {
-    //this.events = this.events.map(iEvent => {
-    //  if (iEvent === event) {
-    //    return {
-    //      ...event,
-    //      start: newStart,
-    //      end: newEnd
-    //    };
-    //  }
-    //  return iEvent;
-    //});
+    this.events = this.events.map(iEvent => {
+      if (iEvent === event) {
+        return {
+          ...event,
+          start: newStart,
+          end: newEnd
+        };
+      }
+      return iEvent;
+    });
     this.handleEvent('Dropped or resized', event);
   }
 
@@ -155,6 +141,8 @@ export class LargeCalenderComponent {
     var newEventEditModel = that.createModel();
     that._httpWrapper.post({ url: url + "createevent", data: newEventEditModel }).then(function (result) {
       that.getEvents();
+      that.showMessage = true;
+      that.message = result.message;
     });
 
   }
@@ -164,8 +152,14 @@ export class LargeCalenderComponent {
     that.eventSearchModel.PersonId = that.userId;
     that.eventSearchModel.year = that.viewDate.getFullYear();
     that.eventSearchModel.month = that.viewDate.getMonth() + 1;
-    that._httpWrapper.post({ url: url + "getevent",data:that.eventSearchModel}).then(function (result) {
+    that._httpWrapper.post({ url: url + "getevent", data: that.eventSearchModel }).then(function (result) {
       that.events = result;
+      that.events.forEach(x => {
+        x.start = new Date(x.start.toString());
+        x.end = new Date(x.end.toString());
+        x.color = colors.red;
+        x.actions = that.actions;
+      });
     });
   }
 
@@ -174,13 +168,12 @@ export class LargeCalenderComponent {
     //this.events = this.events.filter(event => event !== eventToDelete);
   }
 
-
   createModel() {
 
     let newEvent: CalendarEventEditModel =
     {
       Id: 0,
-      personId: this.userId ,
+      personId: this.userId,
       title: this.eventEditModel.title,
       start: this.eventEditModel.start,
       end: this.eventEditModel.end,

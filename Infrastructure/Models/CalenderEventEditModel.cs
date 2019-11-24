@@ -13,5 +13,6 @@ namespace Infrastructure.Models
         public bool Draggable { get; set; }
         public bool ResizableBeforeStart { get; set; }
         public bool ResizableAfterEnd { get; set; }
+        public string Message { get; set; }
     }
 }

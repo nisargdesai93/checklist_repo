@@ -9,7 +9,7 @@ import decode from 'jwt-decode';
 })
 export class NavMenuComponent {
   isExpanded = false;
-  navigateURL: string = '';
+  navigateURL: string = '/login';
   userSessionModel: any;
 
   constructor(private _router: Router, private activatedRoute: ActivatedRoute) {
@@ -37,6 +37,6 @@ export class NavMenuComponent {
 
   getLocalStorage() {
     let that = this;
-    that.userSessionModel = localStorage.getItem('userSession');
+    that.userSessionModel = JSON.parse(localStorage.getItem('userSession'));
   }
 }

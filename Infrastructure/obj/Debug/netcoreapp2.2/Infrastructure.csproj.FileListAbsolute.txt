@@ -8,3 +8,4 @@ E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.AssemblyInfoI
 E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.AssemblyInfo.cs
 E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.dll
 E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.pdb
+E:\CheckList\Infrastructure\obj\Debug\netcoreapp2.2\Infrastructure.csprojAssemblyReference.cache
