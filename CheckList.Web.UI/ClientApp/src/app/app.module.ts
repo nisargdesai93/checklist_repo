@@ -31,7 +31,7 @@ const JWT_Module_Options: JwtModuleOptions = {
 };
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+  { path: 'home/:userId', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
 ];
 

@@ -46,13 +46,16 @@ namespace Infrastructure.Implementation
             return eventModel;
         }
 
-        public List<CalenderEventEditModel> GetAllEvents(CalenderEventSearchEditModel model)
+        public List<CalenderEvent> GetAllEvents(CalenderEventSearchEditModel model)
         {
             var events = new List<Event>();
-            var result = new List<CalenderEventEditModel>();
+            var result = new List<CalenderEvent>();
+
+            var firstDayOfMonth = new DateTime((int)model.Year, (int)model.Month, 1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
             events = (from e in _eventRepository.List
-                      where e.PersonId == model.PersonId && e.StartsAt >= model.StartDate && model.EndDate >= model.EndDate
+                      where e.PersonId == model.PersonId && e.StartsAt >= firstDayOfMonth && e.EndsAt <= lastDayOfMonth
                       select e).ToList();
 
             foreach (var e in events)
@@ -63,9 +66,9 @@ namespace Infrastructure.Implementation
             return result;
         }
 
-        private CalenderEventEditModel CreateModel(Event model)
+        private CalenderEvent CreateModel(Event model)
         {
-            return new CalenderEventEditModel
+            return new CalenderEvent
             {
                 Id = model.Id,
                 Start = model.StartsAt,
@@ -73,8 +76,12 @@ namespace Infrastructure.Implementation
                 AllDay = model.AllDayEvent,
                 Title = model.Description,
                 Draggable = true,
-                ResizableAfterEnd = false,
-                ResizableBeforeStart = true,
+                Resizable = new Resizable
+                {
+                    BeforeStart = true,
+                    AfterEnd = true,
+                }
+
             };
         }
     }

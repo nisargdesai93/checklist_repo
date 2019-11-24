@@ -21,8 +21,8 @@ namespace CheckList.Web.UI.API
            return _eventService.CreateEvent(model);
         }
 
-        [HttpGet("getevent/{personId}")]
-        public IEnumerable<CalenderEventEditModel> GetEvents([FromBody]CalenderEventSearchEditModel model)
+        [HttpPost("getevent")]
+        public IEnumerable<CalenderEvent> GetEvents([FromBody]CalenderEventSearchEditModel model)
         {
             return _eventService.GetAllEvents(model);
         }

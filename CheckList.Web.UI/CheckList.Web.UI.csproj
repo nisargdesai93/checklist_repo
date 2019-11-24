@@ -40,6 +40,7 @@
     <None Remove="ClientApp\src\app\counter\counter.component.ts" />
     <None Remove="ClientApp\src\app\fetch-data\fetch-data.component.html" />
     <None Remove="ClientApp\src\app\fetch-data\fetch-data.component.ts" />
+    <None Remove="ClientApp\src\app\Model\calender.event.search.edit.model.ts" />
     <None Remove="ClientApp\src\app\Model\user.authentication.edit.model.ts" />
     <None Remove="ClientApp\src\app\Model\user.registration.edti.model.ts" />
     <None Remove="ClientApp\src\app\Model\user.session.model.ts" />
@@ -58,6 +59,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\calender\large.calender.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Model\calender.event.search.edit.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Model\user.authentication.edit.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Model\user.registration.edti.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Model\user.session.model.ts" />

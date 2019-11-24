@@ -36,7 +36,7 @@ export class LoginComponent {
     this._httpWrapper.post({ url: "api/authentication/authenticateuser", data: that.authenticationModel }).then(function (response) {
       localStorage.setItem("userSession", JSON.stringify(response));
       that.tokenPayload = decode(JSON.stringify(response.token));
-      that.navigateURL = 'home';
+      that.navigateURL = 'home/'+ that.tokenPayload.primarysid;
       that._router.navigate([that.navigateURL]);
 
     }).catch(function (error) {

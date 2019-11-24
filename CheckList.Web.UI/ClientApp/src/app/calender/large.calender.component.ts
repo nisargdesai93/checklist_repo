@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpWrapper } from '../services/http.wrapper.service';
 import { CalendarEventEditModel } from '../Model/calender.event.edit.model';
 import { formatDate } from '@angular/common';
+import { ActivatedRoute, Router } from "@angular/router"
+import { CalenderEventSearchEditModel } from '../Model/calender.event.search.edit.model';
 
 const colors: any = {
   red: {
@@ -37,9 +39,12 @@ export class LargeCalenderComponent {
   CalendarView = CalendarView;
   viewDate: Date = new Date();
 
+  public userId: number = 0;
   public userEvents: CalendarEventEditModel[] = [];
   public newEvent: CalendarEvent;
   public eventEditModel: CalendarEventEditModel = new CalendarEventEditModel();
+  public eventSearchModel: CalenderEventSearchEditModel = new CalenderEventSearchEditModel();
+  public events: CalendarEvent[] = [];
 
   modalData: {
     action: string;
@@ -47,9 +52,13 @@ export class LargeCalenderComponent {
   };
 
 
-  constructor(private modal: NgbModal, private _httpWrapper: HttpWrapper) { }
+  constructor(private modal: NgbModal, private _httpWrapper: HttpWrapper, private _activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this._activatedRoute.params.subscribe(params => {
+      this.userId = params['userId'];
+    });
+
     this.getEvents();
   }
 
@@ -74,26 +83,27 @@ export class LargeCalenderComponent {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      draggable: true
-    }
-  ];
+  //events: CalendarEvent[] = [
+  //  {
+  //    start: subDays(startOfDay(new Date()), 1),
+  //    end: addDays(new Date(), 1),
+  //    title: 'A 3 day event',
+  //    color: colors.red,
+  //    actions: this.actions,
+  //    allDay: true,
+  //    resizable: {
+  //      beforeStart: true,
+  //      afterEnd: true
+  //    },
+  //    draggable: true
+  //  }
+  //];
 
   activeDayIsOpen: boolean = true;
 
   setView(view: CalendarView) {
     this.view = view;
+    this.getEvents();
   }
 
   closeOpenMonthViewDay() {
@@ -144,14 +154,18 @@ export class LargeCalenderComponent {
     let that = this;
     var newEventEditModel = that.createModel();
     that._httpWrapper.post({ url: url + "createevent", data: newEventEditModel }).then(function (result) {
+      that.getEvents();
     });
 
   }
 
   getEvents() {
     let that = this;
-    that._httpWrapper.get({ url: url + "getevent/1" }).then(function (result) {
-      that.userEvents = result;
+    that.eventSearchModel.PersonId = that.userId;
+    that.eventSearchModel.year = that.viewDate.getFullYear();
+    that.eventSearchModel.month = that.viewDate.getMonth() + 1;
+    that._httpWrapper.post({ url: url + "getevent",data:that.eventSearchModel}).then(function (result) {
+      that.events = result;
     });
   }
 
@@ -166,7 +180,7 @@ export class LargeCalenderComponent {
     let newEvent: CalendarEventEditModel =
     {
       Id: 0,
-      personId: 1,
+      personId: this.userId ,
       title: this.eventEditModel.title,
       start: this.eventEditModel.start,
       end: this.eventEditModel.end,
@@ -178,6 +192,5 @@ export class LargeCalenderComponent {
 
     return newEvent;
   }
-
 }
 

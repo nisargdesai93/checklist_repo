@@ -101,7 +101,7 @@
     <h3 class="text-center">Events</h3>
     <div class="table-responsive">
       <ul *ngIf="events.length > 0" class="list-group">
-        <li class="list-group-item" *ngFor="let event of userEvents">
+        <li class="list-group-item" *ngFor="let event of events">
           <span><strong>Title : </strong>{{event.title}}</span><br />
           <span><strong>Start At : </strong>{{ event.start | date:'medium' }}</span><br />
           <span><strong> Ends At : </strong>{{ event.end | date:'medium' }}</span><br />

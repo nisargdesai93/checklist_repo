@@ -98,6 +98,7 @@ namespace Infrastructure.Implementation
                              where u.UserName == userEmail
                              select new
                              {
+                                 u.Id,
                                  u.UserName,
                                  p.FirstName,
                                  p.LastName
@@ -117,7 +118,10 @@ namespace Infrastructure.Implementation
 
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        Subject = new ClaimsIdentity(new Claim[]{new Claim(ClaimTypes.Name, userLogin.UserName.ToString())}),
+                        Subject = new ClaimsIdentity(new Claim[]{
+                            new Claim(ClaimTypes.Name, userLogin.UserName.ToString()),
+                            new Claim(ClaimTypes.PrimarySid, userLogin.Id.ToString())
+                        }),
                         Expires = DateTime.UtcNow.AddDays(1),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                     };

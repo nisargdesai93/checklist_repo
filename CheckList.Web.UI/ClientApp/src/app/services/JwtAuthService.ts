@@ -10,8 +10,8 @@ export class JwtAuthService {
 
 
   public isAuthenticated(): boolean {
-    const token: any = localStorage.getItem('userSession');
-
-    return !this.jwtHelper.isTokenExpired(token.token);
+    const token: any = this.jwtHelper.tokenGetter();
+    var t = JSON.parse(token);
+    return !this.jwtHelper.isTokenExpired(t.token);
   }
 }
